@@ -1,5 +1,8 @@
 
+
 import openpyxl
+import os
+import sys
 
 headers = []
 header_1 = ['Adress', 'Name', 'Bit 7', 'Bit 6', 'Bit 5', 'Bit 4', 'Bit 3', 'Bit 2', 'Bit 1', 'Bit 0', 'Page']
@@ -70,13 +73,6 @@ def repair_rows(sheet):
                 print(i)
 
 
-
-
-# def repair_offset()
-
-
-
-
 def fix_andcells(sheet):
     c_nb = 0
     iterator = 0
@@ -143,24 +139,29 @@ def fix_andcells(sheet):
 
 def repair_file(path):
     wb = openpyxl.load_workbook(path)
-    sheet = wb['Arkusz1']
+    sheet = wb['Sheet1']
 
 
-    # print(sheet['A1'].value)
+    print(sheet['B1'].value)
 
-    if sheet['A1'].value == headers[0][0] or sheet['A2'].value == headers[0][0]:
-        file_type = 0
-    else:
+    if sheet['A1'].value == headers[1][0] or sheet['B1'].value == headers[1][0]:
         file_type = 1
-    fix_headers(sheet, headers[file_type])
-    fix_andcells(sheet)
+    else:
+        file_type = 0
 
-    if sheet['A1'].value == 'Unnamed: 0':
-        sheet.delete_cols(1)
+    if file_type == 1:
+
+        fix_headers(sheet, headers[file_type])
+        fix_andcells(sheet)
+
+        if sheet['A1'].value == 'Unnamed: 0':
+            sheet.delete_cols(1)
+
+        repair_rows(sheet)
+        wb.save(path)
+        print(path)
 
 
+for filename in os.listdir(os.path.dirname(sys.argv[0]) + '\\PDF2CSV_Extracted\\Excel_Files'):
+    repair_file(os.path.dirname(sys.argv[0]) + '\\PDF2CSV_Extracted\\Excel_Files\\' + filename)
 
-    repair_rows(sheet)
-    wb.save(path)
-
-repair_file('Zeszyt1.xlsx')
