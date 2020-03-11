@@ -28,9 +28,9 @@ def csv_to_xlsx():
         #     continue
         full_path = dir_path + '\\' + file
         excel_file_full_path = excel_dir_path + "\\" + file[:-3] + 'xlsx'
-        # read_file = pandas.read_csv(full_path, delimiter="\t")
-        # read_file.to_excel(excel_file_full_path, index=None, header=True)
-        print(excel_file_full_path)
+        read_file = pandas.read_csv(full_path, delimiter="\t")
+        read_file.to_excel(excel_file_full_path, index=None, header=True)
+#         print(excel_file_full_path)
 
 
 
